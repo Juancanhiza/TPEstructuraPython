@@ -1,26 +1,22 @@
-import tweepy 
+import tweepy
 import csv
 from tweepy import Stream
 from tweepy.streaming import StreamListener
 from random import randrange
 
-consumer_key = "CONSUMER_KEY"
-consumer_secret = "CONSUMER_SECRET"
-access_key = "ACCESS_KEY"
-access_secret = "ACCESS_SECRET"
+consumer_key = "S0AENDlf3pPFqqtMMBGrDYB8z"
+consumer_secret = "t20hmQFuJ0eb6KmWcAAxaSoh3PmwjLjmii0Ttrzz3oGksSXXxv"
+access_key = "1186073449569144832-A3h1HusrVTjjlm29QUCIPXPMqRMN38"
+access_secret = "rPLFcHAhxd7cwTdOFuxF3bTNd2Wftw9RvqeUV32Mhiqna"
           
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret) 
-
 auth.set_access_token(access_key, access_secret) 
-
 api = tweepy.API(auth) 
 
 ''' PROGRAMA 1 '''
-
 #Se crea el archivo para escritura
 file = open("tweets/tweets_billetaje.csv", "w")
 file.write('Autor' + ',' + 'Hora' + ',' + 'Fecha' + ',' + 'Texto' + '\n')
-
 search_words = "billetaje electronico"
 
 tweets = tweepy.Cursor(api.search, q=search_words).items(100)
@@ -125,17 +121,17 @@ for tw in tweets:
         apariciones = 1
     anterior=actual
 
-print(f'El usuario que más tweeteo fue:{autor_mayor} con {mayor_apariciones} tweets')
+#print(f'El usuario que mas tweeteo fue:{autor_mayor} con {mayor_apariciones} tweets')
 
 
 
 ''' PROGRAMA 4 '''
-'''
+
 class Listener(StreamListener):
     def on_data(self, tweet):
         try:
             with open('tweets/tweets_tiempo_real.csv', "w") as file:
-                print ('Llegó un tweet!')
+                print ('Llego un tweet!')
                 file.write( tweet + '\n')
                 return True
         except BaseException as e:
@@ -148,7 +144,7 @@ class Listener(StreamListener):
 
 tw_stream = Stream(auth, Listener())
 tw_stream.filter(track=['#python'])
-'''
+
 
 ''' PROGRAMA 5 '''
 
@@ -184,6 +180,9 @@ def sorteo (tweets):
     ganador = randrange(100)
     print(f'El numero ganador fue: {ganador}')
     print(f'El ganador del sorteo es: {tweets[ganador].autor}')
-
+    suplente = randrange(100)
+    while ganador == suplente:
+    	suplente = randrange(100)
+    print(f'El numero ganador suplente fue: {suplente}')
+    print(f'El ganador suplente del sorteo es: {tweets[suplente].autor}')
 sorteo(tweets_sorteo)
-
